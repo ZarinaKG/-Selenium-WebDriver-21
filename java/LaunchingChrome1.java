@@ -102,37 +102,5 @@ public class LaunchingChrome1{
       customerElementLink.click();
       assertTrue(isElementPresent(By.tagName("h1")));
     }
-
-
-
-   /*
-    WebElement menu = driver.findElement(cssSelector("ul#box-apps-menu"));
-    List<WebElement> elementsInMenu = menu.findElements(By.tagName("a"));
-    System.out.println(elementsInMenu.size());
-
-    for (int i = 1; i <= elementsInMenu.size(); i++) {
-      Thread.sleep(1000);
-      WebElement appearence = driver.findElement(cssSelector("ul#box-apps-menu li:nth-child(" + i + ")"));
-      WebElement appearenceLink = appearence.findElement(cssSelector("a[href^=http]"));
-      appearenceLink.click();
-
-      if (isElementPresent(cssSelector("ul.docs"))) {
-        WebElement customerpoints = driver.findElement(cssSelector("ul.docs"));
-        List<WebElement> customerpointsLink = customerpoints.findElements(By.tagName("a"));
-        System.out.println(customerpointsLink.size());
-
-        for (int j = 1; j <= customerpointsLink.size(); j++) {
-          Thread.sleep(1000);
-          WebElement customerElements = driver.findElement(cssSelector("ul.docs li:nth-child(" + j + ")"));
-          WebElement customerElementLink = customerElements.findElement(cssSelector("a[href^=http]"));
-          customerElementLink.click();
-          assertTrue(isElementPresent(By.tagName("h1")));
-        }
-
-      }
-      assertTrue(isElementPresent(By.tagName("h1")));
-    }
-   */
-
   }
 }
