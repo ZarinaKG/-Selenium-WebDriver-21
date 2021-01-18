@@ -21,7 +21,6 @@ public class Zadanie13{
   private WebDriverWait wait;
 
 
-
   @Before
   public void start() throws InterruptedException {
     ChromeOptions options = new ChromeOptions();
@@ -29,13 +28,13 @@ public class Zadanie13{
     // driver = new ChromeDriver(options);
     driver = new ChromeDriver();
     wait = new WebDriverWait(driver, 10);
-   // driver.get("http://localhost/litecart");
-   // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-   // wait.until(titleIs("Online Store | My Store"));
+    // driver.get("http://localhost/litecart");
+    // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    // wait.until(titleIs("Online Store | My Store"));
 
 
   }
-  
+
   @After
   public void stop() {
     driver.quit();
@@ -44,7 +43,7 @@ public class Zadanie13{
 
   @Test
   public void checkCountriesA() throws InterruptedException {
-    for (int i=1; i<4; i++) {
+    for (int i = 1; i < 4; i++) {
       Integer items = i;
       System.out.println(items);
       String homePage = "http://localhost/litecart";
@@ -63,14 +62,14 @@ public class Zadanie13{
 
       WebElement classQuantity = driver.findElement(cssSelector("td.quantity"));
 
-  try{
+      try {
 
-    driver.manage().timeouts()
-            .implicitlyWait(0, TimeUnit.SECONDS);
-          Select productSize=new Select(driver.findElement(cssSelector("select[name='options[Size]']")));
-          productSize.selectByIndex(2);
+        driver.manage().timeouts()
+                .implicitlyWait(0, TimeUnit.SECONDS);
+        Select productSize = new Select(driver.findElement(cssSelector("select[name='options[Size]']")));
+        productSize.selectByIndex(2);
 
-     }catch(Exception e){
+      } catch (Exception e) {
 
       }
       driver.manage().timeouts()
@@ -89,28 +88,29 @@ public class Zadanie13{
     Thread.sleep(1000);
     checkOutLink.click();
 
-    List<WebElement> itemsInCart= driver.findElements(cssSelector("li.shortcut"));
-
-    Integer numberOfItems = itemsInCart.size();
-    System.out.println("Number of Items in Cart: " +numberOfItems);
-
-    for (int i =0; i< numberOfItems; i++) {
-      Thread.sleep(1000);
-
-      WebElement item = driver.findElement(cssSelector("ul.items li:first-child"));
-      WebElement removeItem = item.findElement(cssSelector("[name=remove_cart_item]"));
-      Thread.sleep(1000);
-      wait.until(elementToBeClickable(removeItem));
-      removeItem.click();
-
+    WebElement removeItem;
+    while (true) {
+      if (driver.findElements(cssSelector("[name=remove_cart_item]")).size() == 0) {
+        break;
+      }
+      List<WebElement>  itemsInCart = driver.findElements(cssSelector("li.shortcut"));
+      System.out.println(itemsInCart.size());
       WebElement tableElem = driver.findElement(cssSelector(".dataTable"));
-
       List<WebElement> prodcodes = tableElem.findElements(cssSelector(".sku"));
-      wait.until(numberOfElementsToBeLessThan(cssSelector(".sku"),numberOfItems+1-i));
+      WebElement firstProduct = prodcodes.get(1);
 
+      if (itemsInCart.size() > 1) {
+        itemsInCart.get(0).click();
+        Thread.sleep(500);
+      }
+
+      removeItem = driver.findElement(cssSelector("[name=remove_cart_item]"));
+      wait.until(elementToBeClickable(removeItem));
+
+      removeItem.click();
+      wait.until(stalenessOf(firstProduct));
 
     }
-
-
   }
 }
+
